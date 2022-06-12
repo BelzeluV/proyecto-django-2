@@ -1,0 +1,80 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>
+            {% block title %} 
+            {% endblock %}
+        </title>
+        <!--funcionamiento-->
+        <link rel="icon" href='{% static "imagenes/iconoplantita.jpg" %}'>                                          <!--icono de la pagina web-->
+        <meta charset="UTF-8">                                                                          <!--codificacion de caracteres-->      
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">                                           <!--para elegir la version de internet explorer con edge-->
+        <script src='{% static "js/Funciones.js" %}'></script>                                          <!--js-->
+        <link type="text/css"   href='{% static "css/style.css" %}'rel="stylesheet"/>                   <!--css-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>        <!--jquery por si algo falta-->
+        <script src='{% static "js/categorias.js" %}'></script>                                                           <!--js de las cosas de la eimy-->
+        <!--Bootstrap 5-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    </head>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">            <!--NAVBAR-->
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src='{% static "imagenes/iconoplantita.jpg" %}' alt="" width="30" height="24" class="d-inline-block align-text-top">
+            </a>
+            <a class="navbar-brand" href="#">Admin De La Tienda Plantitas</a>                                                                             <!--link para la pagina de inicio-->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Buscar Producto" aria-label="Search" style="margin-bottom: 12px;margin-top: 12px;">
+                <button class="btn btn-outline-success" type="submit" style="margin-right: 12px;margin-bottom: 12px;margin-top: 12px;">Buscar </button>
+            </form>
+
+            <div class="btn-group" style="margin-bottom: 12px;margin-top: 12px;">                                                                  <!--ahi el grupo de Botones del inicio de sesion -->
+            <a href="#" class="btn btn-primary active" aria-current="page">Crear Cuenta</a>
+            <a href="#" class="btn btn-primary">Iniciar Sesión</a>
+            </div>
+        </div>
+            </div>
+        </nav>
+            {% block content %}
+            {% endblock %}
+        <div class="container-fluid py-5">                                       <!--FOOTER-->
+                    
+            <footer class="text-center text-lg-start text-white " style="background-color: #1b1822">
+            <!-- Grid container -->
+                <div class="container py-4 ">
+                    <section class="">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                                <h6 class="text-uppercase mb-4 font-weight-bold">Administracion</h6>
+                                <p>Dentro de esta pagina usted puede administrar los productos de la tienda.</p>
+                            </div> 
+                            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                                <h6 class="text-uppercase mb-4 font-weight-bold">Problemas</h6>
+                                <p>Si surge algun problema, no dude en contactar al desarrollador en los horarios habiles.</p>
+                            </div>  
+                            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                                <h6 class="text-uppercase mb-4 font-weight-bold">Mas Proximamente</h6>
+                                <p>Pronto existiran Mas herramientas para que el manejo de la aplicacion sea mas sencillo.</p>
+                            </div>            
+                        </div>
+                    </section>
+        
+                </div>
+        
+                <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">      <!--copyright-->
+                    © 2020 Copyright:
+                    <a class="text-white" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>

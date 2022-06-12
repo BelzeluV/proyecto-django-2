@@ -1,0 +1,108 @@
+{% extends "PlantillaPadre.html"%}
+{% load humanize %}
+{% load static %}
+{% block title %} Plantitas | Inicio {% endblock %}
+
+{% block content%} 
+<div class = "container">                                                 <!--Container de toda la pagina-->
+  <div class="row mb-5 mt-5">                                                   <!--eslogan, no se-->                                 
+    <div class="text-center">
+      <h1 style="color:aliceblue;" >El Cuidado, Arreglo y Embellecimiento del Jardín</h1>
+      <h4 style="color:aliceblue;">Con Los Siguientes Productos de nuestra Seleccion.</h3>
+    </div>
+  </div>
+
+  <div class="col-12 ">                           <!--este es el carrusel de la pagina principal de la tienda.-->
+    <div id="carouselExampleCaptions" class="carousel carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+      </div>
+
+      <div class="carousel-inner">                                                <!--los resultados de los usos de los productos-->                                                               
+      
+        <div class="carousel-item active">                                        <!--el jardin-->                                 
+        <img src='{% static "imagenes/CarruselJardin.jpg" %}' class="d-block w-100" alt="Foto_1">
+          <div class="carousel-caption d-none d-md-block">
+            <h2>El Jardín Mas hermoso</h2>
+            <p>Que Nuestros Productos pueden Ofrecer</p>
+          </div>
+        </div>
+      
+        <div class="carousel-item">                                               <!--las flores-->
+        <img src='{% static "imagenes/CarruselPlantas.jpg" %}' class="d-block w-100" alt="Foto_2">
+          <div class="carousel-caption d-none d-md-block">
+            <h2>La Mejor Seleccion de Flores y plantas</h2>
+            <p>Que Van a Decorar de la forma mas Bella Sus Jardines</p>
+          </div>
+        </div>
+      
+        <div class="carousel-item">                                               <!--las macetas-->
+        <img src='{% static "imagenes/CarruselMacetas.jpg" %}' class="d-block w-100" alt="Foto_3">
+          <div class="carousel-caption d-none d-md-block">
+            <h1>La Mejor Seleccion de Macetas y Maceteros</h1>
+            <p>Para tener sus plantas, arboles Bonzais y Flores.</p>
+          </div>
+        </div>
+    
+        <div class="carousel-item">                                               <!--las Herramientas-->
+        <img src='{% static "imagenes/CarruselHerramientas.jpg" %}' class="d-block w-100" alt="Foto_4">
+          <div class="carousel-caption d-none d-md-block">
+            <h2>Las Mejores Herramientas</h2>
+            <p>Que pueden ayudarle con el cuidado de Su Jardín.</p>
+          </div>
+        </div>
+
+        <div class="carousel-item">                                               <!--El Courier-->
+        <img src='{% static "imagenes/CarruselCarrier.jpg" %}' class="d-block w-100" alt="Courier">
+          <div class="carousel-caption d-none d-md-block">
+            <h1 >El Mejor Courier Disponible</h1>
+            <p>Con Envío Rápido Y Seguro a tu Hogar</p>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev"><!--este es el Boton de uno atrás-->
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">atrás</span>
+      </button>
+    
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next"><!--este es el Boton de uno adelante-->
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguientes</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+  <div class="text-center">                                                     <!--titulo de los destacados-->
+    <h1 style="color: aliceblue;">Productos Destacados</h1>
+  </div>
+
+  <div class="container-fluid" >  <!--fotos de los destacados-->
+    <div class="row">                                         
+    {% for p in productos %}
+    <div class="col-3"> 
+      <div class="card">
+        {% if p.FotoProducto %}
+        <img src="{{ p.FotoProducto.url }}" class="card-img-top" alt="...">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ p.nombre_producto | capfirst }}</h5>
+          <p class="card-text">{{ p.desc }}</p>
+          <p class="card-text"><small class="text-muted">${{ p.precio | intcomma }}</small></p>
+          <a href="#" class="btn btn-primary">ver</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    </div>
+  </div>
+  
+
+{% endblock %}
