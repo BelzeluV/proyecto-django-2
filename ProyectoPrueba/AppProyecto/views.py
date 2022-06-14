@@ -1,9 +1,11 @@
-from django.shortcuts import redirect, render
-from django.http import HttpResponse
-from django.template import Context
-from django.template import loader
+from mailbox import NoSuchMailboxError
+import random
+from django.core.paginator import Paginator
+from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 from . import models
 from . import forms
+
 # Create your views here.
 
 def Inicio(request):
@@ -11,17 +13,45 @@ def Inicio(request):
     return render(request,'Pagina/PaginaInicio.html',{'productos': productos})
 
 def CrearCuenta(request):
-    return render(request,"Pagina/PaginaRegistro.html")
+    data = {"formulario" : forms.UsuarioForm}
+
+    if request.method == 'POST':
+        formulario = forms.UsuarioForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+        else:
+            data["formulario"] = formulario
+    return render(request,"Pagina/PaginaRegistro.html",data)
 
 def IniciarSesion(request):
-    return render(request,"Pagina/PaginaInicio.html")
+    return render(request,"Pagina/PaginaInicioSesion.html")
 
-def Busqueda(request):
-    return render(request,'Pagina/Busqueda.html')
+def Busqueda(request,id):
+    return render(request,'Pagina/Busqueda.html',)
+
+
+
+def DetalleProd(request,id):
+    Producto = get_object_or_404(models.Producto, id_producto = id)
+
+    data = {"producto" : Producto}
+
+    return render(request, 'Pagina/PaginaProducto.html', data)
+
 
 def Vista(request):
     ListaDeProductos = models.Producto.objects.all() 
-    return render(request, "CRUD/VISTA.html",{"productos":ListaDeProductos})
+    page = request.GET.get('page',1)
+
+    try:
+        paginator = Paginator(ListaDeProductos, 5)
+        ListaDeProductos = paginator.page(page)
+    except:
+        raise Http404
+
+    data = {"entity": ListaDeProductos, 'paginator': paginator}
+
+    return render(request, "CRUD/VISTA.html",data)
 
 def Agregar(request):
     data = {"formulario" : forms.ProductoForm()}
@@ -29,7 +59,7 @@ def Agregar(request):
         formulario = forms.ProductoForm(data=request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            data["mensaje"] = "Producto Guardado"
+            return redirect(to="vista")
         else:
             data["formulario"] = formulario
 
@@ -37,12 +67,12 @@ def Agregar(request):
 
 def Modificar(request,id):
 
-    producto = get_object_or_404(Producto, id = id) 
+    producto = get_object_or_404(models.Producto, id_producto = id) 
 
-    data = { "formulario" : ProductoForm(instance = producto)}
+    data = { "formulario" : forms.ProductoForm(instance = producto)}
 
     if request.method == 'POST':
-        formulario = ProductoForm(data = request.POST, instance=producto, files = request.FILES)
+        formulario = forms.ProductoForm(data = request.POST, instance=producto, files = request.FILES)
         if formulario.is_valid:
             formulario.save()
             return redirect(to="vista")
@@ -51,4 +81,6 @@ def Modificar(request,id):
     return render(request,"CRUD/MODIFICAR.html",data)
 
 def Eliminar(request,id):
-    return rendeer(request,"CRUD/ELIMINAR.html")
+    producto = get_object_or_404(models.Producto, id_producto = id) 
+    producto.delete()
+    return redirect(to="vista")

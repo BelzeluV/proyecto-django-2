@@ -23,10 +23,10 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">            <!--NAVBAR-->
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{% url 'home' %}">
                     <img src='{% static "imagenes/iconoplantita.jpg" %}' alt="" width="30" height="24" class="d-inline-block align-text-top">
             </a>
-            <a class="navbar-brand" href="#">Plantitas</a>                                                                             <!--link para la pagina de inicio-->
+            <a class="navbar-brand" href="{% url 'home' %}">Plantitas</a>                                                                             <!--link para la pagina de inicio-->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,20 +55,21 @@
             </form>
 
             <div class="btn-group" style="margin-bottom: 12px;margin-top: 12px;">                                                                  <!--ahi el grupo de Botones del inicio de sesion -->
-            <a href="#" class="btn btn-primary active" aria-current="page">Crear Cuenta</a>
-            <a href="#" class="btn btn-primary">Iniciar Sesión</a>
+            <a href="{% url 'crear-cuenta' %}" class="btn btn-primary active" aria-current="page">Crear Cuenta</a>
+            <a href="{% url 'inicioSesion' %}" class="btn btn-primary">Iniciar Sesión</a>
             </div>
         </div>
             </div>
         </nav>
             {% block content %}
+            
             {% endblock %}
         <div class="container-fluid py-5">                                       <!--FOOTER-->
                     
             <footer class="text-center text-lg-start text-white " style="background-color: #1b1822">
             <!-- Grid container -->
-                <div class="container p-4 pb-0">
-                    <section class="">
+                <div class="container py-4">
+                    <section>
                         <div class="row">
                             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                                 <h6 class="text-uppercase mb-4 font-weight-bold">Plantitas</h6>
@@ -81,8 +82,8 @@
                                 <h6 class="text-uppercase mb-4 font-weight-bold">Nuestra alianza</h6>
                                 <p><a class="text-white">Alan Zamora</a></p>
                                 <p><a class="text-white">Eimy Henriquez</a></p>
-                                <p><a class="text-white">Gladys Gutierrez</a></p>
-                                <p><a class="text-white">Martín arancilla</a></p>
+                                <p><a class="text-white">Patricio Yañez</a></p>
+                                <p><a class="text-white">Diego Maradona</a></p>
                             </div>
                             
                             <hr class="w-100 clearfix d-md-none"/>          

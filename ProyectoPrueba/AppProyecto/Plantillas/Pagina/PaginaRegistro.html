@@ -1,229 +1,36 @@
 {% extends "PlantillaPadre.html"%}
-
-{% block title %} Plantitas | Inicio {% endblock %}
-
+{% block title %} Plantitas | Crear Cuenta {% endblock %}
+{% load static %}
+{% load crispy_forms_tags %}
 {% block content%} 
+<script src='{% static "js/Funciones.js" %}'></script>
 <div class="container-fluid">
-    <form action="registrar">
-        <div class="row mb-5 mt-5">
-            <div class="text-center">
-                <h1 style="color: aliceblue";>Registrate en plantitas</h1>
-            </div>        
-        </div>
     
-        <div class="row mb-2 mb-2">                                                 <!--nombre del usuario-->
-            <div class="col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Nombre De Usuario</h3>    
-            </div>
-            <div class="col-md-6">                                                      <!--id nombre de usuario listo-->
-                <input type="text" id="nombreusuario" 
-                name="txtusuario" class="txtusuario form-control"
-                maxlength="50" placeholder="Por ejemplo: el_queso_Bakan" 
-                title="Ingrese Su nombre de usuario" required>
-            </div>
-        </div>
+    
 
-        <div class="row mb-2 mb-2">                                                     <!--nombre real del usuario-->
-            <div class="col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Nombre Real</h3>        
-            </div>
-            <div class="col-md-6">                                                      <!--id de nombre real del usuario listo-->
-                <input type="text" id="nombre" 
-                name="txtNombre" class="txtNombre form-control" 
-                maxlength="100" placeholder="Ej: Juan Pérez" 
-                title="Ingrese su nombre Real" pattern="[a-zA-Z ]*" 
-                required>
-            </div>
-        </div>
-        
-        <div class="row mb-2 mb-2">                                                   <!--nombre real del usuario-->
-            <div class="col-md-2 offset-2">                            
-                <h3 style="color: aliceblue;">Rut</h3>        
-            </div>
-            <div class="col-md-6">                                                      <!--id rut listo-->
-                <input type="text"
-                id="rut" name="rut" class="rut form-control" maxlength="10" 
-                required oninput="checkRut(this)" 
-                placeholder="Ingrese su Rut" required >   
-            </div>
-        </div>
 
-        <div class="row mb-2 mb-2">                                                     <!--correo-->
-            <div class="col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Correo</h3>        
-            </div>
-            <div class="col-md-6">                                                      <!-- id correo listo-->
-                <input type="email" name="txtemail" 
-                pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" 
-                class="txt_correo form-control"
-                placeholder="ejemplo: juanperez@correo.cl"
-                required> 
-            </div>
-        </div>
+    <div class="col-md-6 offset-3">
+        <h1 style="color:aliceblue">Registrate en plantitas</h1>
+        <div class="d-grid gap-2">
+            <a class="btn btn-danger" href="{% url 'home' %}">Volver</a>
+        </div> 
+    <div class="card bg-dark text-white" >
+        <div class="card-body">
 
-        <div class="row mb-2">                                                          <!--contraseña-->
-            <div class="col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Contraseña</h3>      
-            </div>
-            <div class="col-md-6">                                                      <!--id contraseña listo-->
-                <input type="password" id="txtcontrasena"
-                name="txt_pass" 
-                required oninput="checkcontrasena(this)" 
-                class="txt_pass form-control" 
-                maxlength="50"
-                title="ninimo 8 caracteres, procure no usar espacios" 
-                required pattern="[A-Za-z0-9]{8,40}"
-                placeholder="ingrese una contraseña, sin espacio. min.8 caracteres" r>
-            </div>
-        </div>
-
-        <div class="row mb-2">                                                          <!--repetidor de contraseña-->
-            <div class="col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Repita La Contraseña</h3>         
-            </div>
-            <div class="col-md-6">                                                      <!--id contraseña repetida lista-->
-                <input type="password" id="txtcontrasenarepite" 
-                name="txt_pass2" class="txt_pass2 form-control" 
-                maxlength="50"title="Contraseña repita por favor" 
-                required pattern="[A-Za-z0-9]{8,40}"
-                placeholder="repita la contraseña.">
-            </div>
-        </div>
-
-        <div class="row mb-2">                                                          <!--fecha de nacimiento del regoistrado-->
-            <div class="col-12 col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Fecha de Nacimiento</h3>     
-            </div>
-            <div class="col-12 col-md-6">                                               <!--id nacimiento listo-->
-                <input type='Date' value='' id="fechanaci" 
-                class="txtNacimiento form-control" 
-                title="Ingrese la fecha de nacimiento"required>
-            </div>
-        </div>
-
-        <div class="row mb-2">
-            <div class="col-12 col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Genero</h3>                             <!--sexo del registrado-->
-            </div>
-            <div class="col-12 col-md-6">
-                <select name="cmbSexo" id="txtsexo" class="cmbSexo form-control" required>          <!--id sexo listo-->
-                    <option value="">Seleccione</option>
-                    <option value="1">Masculino</option>
-                    <option value="2">Femenino</option>
-                    <option value="3">Helicoptero De Combate</option>
-                    <option value="4">No especificado</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row mb-5 mt-5">
-            <div class="text-center">
-                <h1 style="color: aliceblue;">Contacto con usted</h1>
-            </div>        
-        </div>
-
-        <div class="row mb-2">                                                          <!--telefonos-->
-            <div class="col-12 col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Teléfono: (+56)</h3>        
-            </div>
-            <div class="col-sm-12 col-md-6">                                        <!--id telefono listo-->
-                <input type="text" id="telefono" 
-                placeholder="Ingrese su numero de telefono" 
-                class="txttelefono form-control" maxlength="9" 
-                required pattern="[0-9]+" 
-                oninput="validarnumero(this)"
-                title="solo ingresar numeros por favor">
-            </div>
-        </div>
-
-        <br>
-
-        <div class="row mb-2">                                                      <!--direccion del asunto-->
-            <div class="col-12 col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Direccion</h3>        
-            </div>
-            <div class="col-12 col-md-6">                                           <!--id direccion listo.-->
-                <input type="text" id="direccion" placeholder="ingrese su Direccion" class="txtdireccion form-control" required>
-            </div>
-        </div>
-
-        <div class="row mb-2">                                                      
-            <div class="col-12 col-md-2 offset-md-2">                               <!-- selector de comunas-->
-                <h3 style="color: aliceblue;">Comuna</h3>                         <!--id comuna listo-->
-            </div>
-            <div class="col-12 col-md-6">
-                <select name="cmbcomunas" id="comuna" class="form-select" required>                           
-                    <option value="">Seleccione</option>
-                    <option value="Cerrillos">Cerrillos</option>
-                    <option value="Cerro Navia">Cerro Navia</option>    
-                    <option value="Conchalí">Conchalí</option>
-                    <option value="El Bosque">El Bosque</option>
-                    <option value="Estación Central">Estación Central</option>
-                    <option value="Huechuraba">Huechuraba</option>
-                    <option value="Independencia">Independencia</option>
-                    <option value="La Cisterna">La Cisterna</option>
-                    <option value="La Florida">La Florida</option>
-                    <option value="La Granja">La Granja</option>
-                    <option value="La Pintana">La Pintana</option>
-                    <option value="La Reina">La Reina</option>
-                    <option value="Las Condes">Las Condes</option>
-                    <option value="Lo Barnechea">Lo Barnechea</option>
-                    <option value="Lo Espejo">Lo Espejo</option>
-                    <option value="Lo Prado">Lo Prado</option>
-                    <option value="Macul">Macul</option>
-                    <option value="Maipú">Maipú</option>
-                    <option value="Ñuñoa">Ñuñoa</option>
-                    <option value="Pedro Aguirre Cerda">Pedro Aguirre Cerda</option>
-                    <option value="Peñalolén">Peñalolén</option>
-                    <option value="Providencia">Providencia</option>
-                    <option value="Pudahuel">Pudahuel</option>
-                    <option value="Quilicura">Quilicura</option>
-                    <option value="Quinta Normal">Quinta Normal</option>
-                    <option value="Recoleta">Recoleta</option>
-                    <option value="Renca">Renca</option>
-                    <option value="San Joaquín">San Joaquín</option>
-                    <option value="San Miguel">San Miguel</option>
-                    <option value="San Ramón">San Ramón</option>
-                    <option value="Vitacura">Vitacura</option>
-                    <option value="Puente Alto">Puente Alto</option>
-                    <option value="Pirque">Pirque</option>
-                    <option value="San José de Maipo">San José de Maipo</option>
-                    <option value="Colina">Colina</option>
-                    <option value="Lampa">Lampa</option>
-                    <option value="TilVl">Tiltil</option>
-                    <option value="San Bernardo">San Bernardo</option>
-                    <option value="Buin">Buin</option>
-                    <option value="Calera de Tango">Calera de Tango</option>
-                    <option value="Paine">Paine</option>
-                    <option value="Melipilla">Melipilla</option>
-                    <option value="Alhué">Alhué</option>
-                    <option value="Curacaví">Curacaví</option>
-                    <option value="María Pinto">María Pinto</option>
-                    <option value="San Pedro">San Pedro</option>
-                    <option value="Talagante">Talagante</option>
-                    <option value="El Monte">El Monte</option>
-                    <option value="Isla de Maipo">Isla de Maipo</option>
-                    <option value="Padre Hurtado">Padre Hurtado</option>
-                    <option value="Peñaflor">Peñaflor</option>
-                </select>
-            </div>
-        </div>
-        <div class="row mt-3 mb-5">
-            <div class="col-md-2 offset-md-2">
-                <h3 style="color: aliceblue;">Opciones</h3>         
-            </div>
-            <div class="col-md-6">
-                <button type="button" name="btn_limpiar" 
-                class="btnEnviar  btn btn-danger float-end" 
-                onclick="focus()">borrar todo</button>
+            <form action="" method="POST" name="Formulario_registro">
                 
-                <input type="submit" name="btn_enviar" 
-                class="btnlimpiar btn btn-success float-end" 
-                title="Limpia el formulario con la información escrita" 
-                value="enviar" 
-                onclick="validaedad(document.getElementById('txtnacimiento').value);checkigualdad();">
-            </div>
+                {% csrf_token %}
+                {{formulario | crispy}}
+
+                
         </div>
-    </form>        
-</div>
+    </div>
+    
+        <div class="d-grid gap-2">
+        <input type="submit" name="btn_enviar" class="btnlimpiar btn btn-success" title="Limpia el formulario con la información escrita" value="enviar" onclick="validaedad(document.getElementById('txtnacimiento').value);checkigualdad();">
+        </div>
+    </form>
+    </div>
+</div>   
+</form>
 {% endblock %}

@@ -1,0 +1,42 @@
+{% extends "PlantillaPadre.html"%}
+
+{% block title %} Plantitas | Iniciar Sesión {% endblock %}
+{% load static %}
+{% block content%} 
+
+                    <div class="container-fluid">
+                    <h1 style="color: aliceblue;">Inicia Sesión en Plantitas</h1>
+                    <div class="col-md-4 offset-4 py-4"> 
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-danger">Volver</button>
+                    </div>
+
+
+                    <div class="card">
+                      <div class="card-body">
+                          <form action="" method="POST">
+
+                            <br>
+                            <label for="nombreusuario">Usuario</label>        
+                            <input type="text" name="txtNombre" id="nombreusuario"class="txtNombre form-control" maxlength="50" placeholder="Ej: x" title="Ingrese Usuario">
+        
+                            <br>
+                            <label for="Contra"></label>Contraseña       
+                            <input type="password" name="password"id="Contra" class="txtApellido form-control" maxlength="50" placeholder="Contraseña" title="Ingrese la contraseña">
+        
+                            <label for="opciones">Opciones</label>     
+                            <div class="btn-group py-4" role="group" id="opciones" aria-label="Basic example" >
+                              <button type="button" class="btn btn-info ">Crear Cuenta</button>
+                              <button type="button" class="btn btn-info ">olvidó su contraseña?</button>
+                            </div>
+                      </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                      <input type="submit" name="btn-outline-success" class="btnLimpiar btn btn-success"title="Limpia el formulario con la información escrita" value="Limpiar">
+                    </div>
+                    </form>
+                  </div>
+                </div>
+
+
+{% endblock %}

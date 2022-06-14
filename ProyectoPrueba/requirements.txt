@@ -2,3 +2,4 @@ django == 4.0.5
 pillow
 django-adminb-interdace
 django-crispy-forms
+cx_oracle

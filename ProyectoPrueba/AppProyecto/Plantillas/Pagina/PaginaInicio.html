@@ -6,13 +6,13 @@
 {% block content%} 
 <div class = "container">                                                 <!--Container de toda la pagina-->
   <div class="row mb-5 mt-5">                                                   <!--eslogan, no se-->                                 
-    <div class="text-center">
+    <div class="text-center py-4">
       <h1 style="color:aliceblue;" >El Cuidado, Arreglo y Embellecimiento del Jardín</h1>
       <h4 style="color:aliceblue;">Con Los Siguientes Productos de nuestra Seleccion.</h3>
     </div>
   </div>
 
-  <div class="col-12 ">                           <!--este es el carrusel de la pagina principal de la tienda.-->
+  <div class="col-12 py-3">                           <!--este es el carrusel de la pagina principal de la tienda.-->
     <div id="carouselExampleCaptions" class="carousel carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -80,29 +80,27 @@
 </div>
 
 
-  <div class="text-center">                                                     <!--titulo de los destacados-->
+  <div class="text-center py-4">                                                     <!--titulo de los destacados-->
     <h1 style="color: aliceblue;">Productos Destacados</h1>
   </div>
 
-  <div class="container-fluid" >  <!--fotos de los destacados-->
+  <div class="container-fluid py-4" >  <!--fotos de los destacados-->
     <div class="row">                                         
     {% for p in productos %}
-    <div class="col-3"> 
-      <div class="card">
+    <div class="col-md-3 "> 
+      <div class="card text-bg-dark">
         {% if p.FotoProducto %}
-        <img src="{{ p.FotoProducto.url }}" class="card-img-top" alt="...">
+        <img src="{{ p.FotoProducto.url }}" class="card-img-top">
         {% endif %}
         <div class="card-body">
           <h5 class="card-title">{{ p.nombre_producto | capfirst }}</h5>
           <p class="card-text">{{ p.desc }}</p>
           <p class="card-text"><small class="text-muted">${{ p.precio | intcomma }}</small></p>
-          <a href="#" class="btn btn-primary">ver</a>
+          <a href="{% url 'detalleproducto' p.id_producto %}" class="btn btn-primary">ver</a>
         </div>
       </div>
     </div>
     {% endfor %}
     </div>
   </div>
-  
-
 {% endblock %}

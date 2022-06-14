@@ -1,0 +1,50 @@
+<label for="">Nombre de Usuario</label>
+                <input type="text" id="usuario" name="txtusuario" class="form-control form-control-sm"maxlength="50" placeholder="Por ejemplo: el_queso_Bakan" title="Ingrese Su nombre de usuario" required>
+        
+        
+                <label for="nombre">Nombre Real</label>        
+                <input type="text" class="form-control form-control-sm " id="nombre" name="txtNombre"  maxlength="100" placeholder="Ej: Juan Pérez" title="Ingrese su nombre Real" pattern="[a-zA-Z ]*" required>
+        
+        
+                <label for="rut">Rut</label>
+                <input type="text" class="form-control form-control-sm" id="rut" name="rut"  maxlength="10" oninput="checkRut(this)" placeholder="Ej: 123456789-5" required >   
+        
+        
+                <label for="txtemail">Correo Electronico</label>  
+                <input type="email" class="form-control form-control-sm" id="txtemail" name="txtemail" pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" placeholder="ejemplo: juanperez@correo.cl"required> 
+        
+        
+                <label for="txtcontrasena">Contraseña</label>    
+                <input type="password" class="form-control form-control-sm" id="txtcontrasena" name="txt_pass" required oninput="checkcontrasena(this)"  maxlength="50"title="ninimo 8 caracteres, procure no usar espacios" required pattern="[A-Za-z0-9]{8,40}"placeholder="ingrese una contraseña, sin espacio. min.8 caracteres" r>
+        
+        
+                <label for="txtcontrasenarepite">Repita su contraseña</label>
+                <input type="password" class="form-control form-control-sm" id="txtcontrasenarepite" name="txt_pass2"  maxlength="50"title="Contraseña repita por favor" required pattern="[A-Za-z0-9]{8,40}"placeholder="repita la contraseña.">
+        
+        
+                <label for="fechanaci">Fecha de Nacimiento</label>
+                <input type='Date' class="form-control form-control-sm"  id="fechanaci" title="Ej:12/12/2000"required>
+        
+        
+                <label for="txtsexo">Genero</label>
+                <select name="cmbSexo" id="txtsexo" class="form-select form-select-sm" required>          <!--id sexo listo-->
+                    <option value="">Seleccione</option>
+                    <option value="1">Masculino</option>
+                    <option value="2">Femenino</option>
+                    <option value="3">Helicoptero De Combate</option>
+                    <option value="4">No especificado</option>
+                </select>
+        
+        
+                <label for="telefono">Teléfono: (+56)</label>                     <!--id telefono listo-->
+                <input type="text" id="telefono" placeholder="Ingrese su numero de telefono" class="form-control form-control-sm" maxlength="9" required pattern="[0-9]+" oninput="validarnumero(this)"title="solo ingresar numeros por favor">
+        
+        
+                <label for="direccion">Direccion</label>      
+                <input type="text" id="direccion" placeholder="ingrese su Direccion" class="form-control form-control-sm" required>
+        
+        
+                <label for="comuna">Comuna</label>
+                <select name="cmbcomunas" id="comuna" class="form-select form-select-sm" required>                           
+                            
+                </select>

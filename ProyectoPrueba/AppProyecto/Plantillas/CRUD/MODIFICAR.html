@@ -1,24 +1,26 @@
 {% extends "PlantillaPadreCrud.html" %}
 {% load static %}
-{% block title %} Plantitas | Administrador de Productos {% endblock %}
+{% load crispy_forms_tags %}
+{% block title %} Administrador | Modificar Producto {% endblock %}
 {% block content%} 
-
 <div class="container-fluid">
-    <div class="row">
-        <div class="card col-4 offset-4">
-            <div class="card-body">
-                <form action="" method="POST" name="Modificar-post">
-
-                    {{formulario}}
-
-                    <input type="submit" class="btn btn-success">
-
-                </form>
-            </div>
+    {{mensaje}}
+    <div class="col-md-4 offset-4 py-4">
+        <div class="d-grid gap-2">
+            <a href="{% url 'vista'%}" class="btn btn-danger">Volver</a>
         </div>
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="post" name="formularioagregar" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{formulario | crispy}}
+                    &nbsp;
+                    </div>
+                </div>
+            <div class="d-grid gap-2">
+                <input type="submit" class="btn btn-success" value="Modificar Y Volver a las tablas">
+            </div>
+        </form>
     </div>
-
-
 </div>
-
-{% endblock%}
+{% endblock %}
