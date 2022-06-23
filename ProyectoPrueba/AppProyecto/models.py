@@ -1,6 +1,8 @@
 from calendar import different_locale
 from distutils.command.upload import upload
 from http.client import PRECONDITION_FAILED
+from subprocess import ABOVE_NORMAL_PRIORITY_CLASS
+from threading import activeCount
 from tkinter import CASCADE
 from unittest.util import _MAX_LENGTH
 
@@ -76,6 +78,8 @@ opcionescomuna =[
     [49,"Isla de Maipo"],
     [50,"Padre Hurtado"],
 ]
+
+
 class Usuario(models.Model):
     nombreusuario       = models.CharField(max_length=100)
     nombrereal          = models.CharField(max_length=10)
@@ -92,14 +96,19 @@ class Usuario(models.Model):
         formato = "Username: {0} Nombre: ({1}) RUT: {2}"
         return formato.format(self.nombreusuario,self.nombrereal,self.RUT)
  
+class Categoria(models.Model):
+    id_categoria        = models.AutoField(primary_key=True)
+    nombrecategoria     = models.CharField(max_length=20)
+    activo              = models.BooleanField()
+    def __str__(self):
+        return self.nombrecategoria
 
-opcionescategoria = [
-    
-    [0,"Macetas"],
-    [1,"Plantas"],
-    [2,"Herramientas"],
-    [3,"Tierras"]
-]
+class Marca(models.Model):
+    id_marca            = models.AutoField(primary_key=True)
+    nombremarca         = models.CharField(max_length=20)
+    activo              = models.BooleanField()
+    def __str__(self):
+        return self.nombremarca
 
 class Producto(models.Model):                                           #clase del Producto
     id_producto         = models.AutoField(primary_key=True)    #pk
@@ -107,15 +116,17 @@ class Producto(models.Model):                                           #clase d
     precio              = models.IntegerField()
     desc                = models.TextField(max_length=1000)
     stock               = models.IntegerField()
-    categoria           = models.IntegerField(choices=opcionescategoria)                             #FK de la clase categoria
+    marca               = models.ForeignKey(Marca, null=True, blank=True, on_delete = models.CASCADE)
+    activo              = models.BooleanField()
+    categoria           = models.ForeignKey(Categoria, null=True, blank=True, on_delete = models.CASCADE)                             #FK de la clase categoria
     FotoProducto        = models.ImageField(upload_to="productos", null=True)
-
+    
     def __str__(self):
         return self.nombre_producto
 
 class Detalle(models.Model):                                            #clase del Detalle
     id_detalle          = models.AutoField(primary_key=True)    #pk
-    id_producto         = models.ForeignKey(Producto, null=True, blank=True, on_delete = models.CASCADE)#FK de la clase producto
+    id_producto         = models.ForeignKey(Producto, null=True, blank=True, on_delete = models.CASCADE)    #FK de la clase producto
     preciodetalle       = models.IntegerField()
     fechadetalle        = models.DateField()
     cantidad            = models.IntegerField()
@@ -129,3 +140,20 @@ class boleta(models.Model):
     id_producto         = models.ForeignKey(Producto, null=True, blank=True, on_delete = models.CASCADE)
     rut                 = models.ForeignKey(Usuario, null=True, blank=True, on_delete = models.CASCADE)
     id_detalle          = models.ForeignKey(Detalle, null=True, blank=True, on_delete = models.CASCADE)
+
+opconsultas = [
+    [0, "Consulta"],
+    [1, "Reclamo"],
+    [2, "Sugerencia"],
+    [3, "Felicitaciones"],
+]
+
+class Contacto(models.Model):
+    nombre              = models.CharField(max_length=50)
+    correo              = models.EmailField()
+    tipo_consulta       = models.IntegerField(choices=opconsultas)
+    mensaje             = models.TextField()
+    avisos              = models.BooleanField()
+
+    def __str__(self):
+        return(self.tipo_consulta)

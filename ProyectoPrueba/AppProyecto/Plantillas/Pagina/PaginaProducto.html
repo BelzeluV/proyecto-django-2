@@ -1,52 +1,44 @@
-
 {% extends "PlantillaPadre.html"%}
 {% load humanize %}
 {% load static %}
 {% block title %} Plantitas | {{producto.nombre_producto}} {% endblock %}
-
 {% block content %} 
+<style>
+    #titulo{
+        text-align: center;
+        color: aliceblue;
+    }
+</style>
 <div class="container-fluid">
-
-
+    <div class="row justify-content-center py-4"><h1 id="titulo">Detalles del Producto</h1></div>
     <div class="row justify-content-center py-4">
-        
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="d-grid gap-2">
                 <a class="btnlimpiar btn btn-danger" href="{% url 'home' %}">Volver</a>
             </div>
-            <div class="card  text-bg-dark">
-                <h1 style="text-align: center;">Detalles del Producto</h1>
+            <div class="card text-bg-dark">
                 <img src="{{ producto.FotoProducto.url }}" class="card-img-left">
-              <div class="card-body">
-                <h2 class="card-title">{{producto.nombre_producto}}</h2>
-                <span></span>
-                <h3>Descripcion</h3>
-                <p class="card-text">{{producto.desc}}</p>
-                <p class="card-text">Tipo de Producto: 
-                    {%if producto.categoria == 0 %}
-                    macetas
-                    {% elif producto.categoria == 1 %}
-                    Plantas
-                    {% elif producto.categoria == 2 %}
-                    Herramientas
-                    {% elif producto.categoria == 3 %}
-                    tierras
-                    {% endif%}
-                </p>
-                <p class="card-text">Quedan: {{producto.stock}}</p>
-                <p class="card-text-muted">{{producto.precio}}</p>
-              </div>
+                
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card text-bg-dark">
+                <div class="card-body">
+                    <h2 class="card-title">{{producto.marca}} | {{producto.nombre_producto}}</h2>
+                    <span></span>
+                    <h3>Descripcion</h3>
+                    <p class="card-text">{{producto.desc}}</p>
+                    <p class="card-text">Tipo de Producto: 
+                        {{producto.categoria}}
+                    </p>
+                    <p class="card-text">Quedan: {{producto.stock}}</p>
+                    <h1 class="card-text-muted">${{producto.precio | intcomma}}</h1>
+                  </div>
             </div>
             <div class="d-grid gap-2">
-                <a class="btnlimpiar btn btn-success">Comprar</a>
+                <a class="btnlimpiar btn btn-success" href='{% url "agregarProducto" producto.id_producto %}'>Agregar a la Cesta</a>
             </div>
-          </div>
-          
-
-
-
+        </div>
     </div>
-
-
 </div>
 {% endblock %}

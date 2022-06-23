@@ -1,26 +1,47 @@
-from pyexpat import model
 from django import forms
-from .models import Producto, Usuario
+from .models import Categoria, Contacto, Marca, Producto, Usuario
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class ProductoForm(forms.ModelForm):
 
-    FotoProducto = forms.FileField(widget=forms.FileInput(attrs={"class":"form-control"}))
+    FotoProducto    = forms.FileField(widget = forms.FileInput(attrs={"class":"form-control"}))
 
     class Meta:
-        model = Producto
-        fields = '__all__'
+        model       = Producto
+        fields      = '__all__'
 
 class UsuarioForm(forms.ModelForm):
-    nombreusuario =forms.CharField(widget = forms.TextInput(attrs= {"placeholder":"Ej: el_queso_bakan"}),required=True)
-    nombrereal = forms.CharField(widget=forms.TextInput(attrs={"pattern":"[a-zA-Z ]*","placeholder":"Ej: Juan Pérez"}))
-    RUT = forms.CharField(widget=forms.TextInput( attrs= {"oninput":"checkRut(this)","maxlength":"10","placeholder":"Ej: 12345678-5"}), required=True )
-    correo = forms.CharField(widget=forms.EmailInput(attrs= {"placeholder":"Ingrese su Correo por favor"}), required=True)
-    nacimiento = forms.DateField(widget=forms.DateInput(attrs= {"type":"date", }))
-    contrasena = forms.CharField(widget=forms.PasswordInput(attrs= {"maxlength":"20","placeholder":"La contraseña debe tener por lo menos 8 Caracteres, procure no usar espacios"})) 
-    telefono = forms.CharField(widget=forms.TextInput(attrs={"pattern":"[0-9]+", "maxlength":"10", "placeholder":"Ingrese su Telefono por favor"}))
-    Direccion = forms.CharField(widget=forms.TextInput(attrs={"placeholder":"Ingrese su Direccion por favor"}))
+    nombreusuario   = forms.CharField(widget = forms.TextInput(attrs = {"placeholder":"Ej: el_queso_bakan"}),required=True)
+    nombrereal      = forms.CharField(widget = forms.TextInput(attrs = {"pattern":"[a-zA-Z ]*","placeholder":"Ej: Juan Pérez"}))
+    RUT             = forms.CharField(widget = forms.TextInput( attrs = {"oninput":"checkRut(this)","maxlength":"10","placeholder":"Ej: 12345678-5"}), required=True)
+    correo          = forms.CharField(widget = forms.EmailInput(attrs = {"placeholder":"Ingrese su Correo por favor"}), required=True)
+    nacimiento      = forms.DateField(widget = forms.DateInput(attrs = {"type":"date"}))
+    contrasena      = forms.CharField(widget = forms.PasswordInput(attrs = {"maxlength":"20","placeholder":"La contraseña debe tener por lo menos 8 Caracteres, procure no usar espacios"})) 
+    telefono        = forms.CharField(widget = forms.TextInput(attrs = {"pattern":"[0-9]+", "maxlength":"10", "placeholder":"Ingrese su Telefono por favor"}))
+    Direccion       = forms.CharField(widget = forms.TextInput(attrs = {"placeholder":"Ingrese su Direccion por favor"}))
     
     
     class Meta:
-        model = Usuario
-        fields= '__all__'
+        model       = Usuario
+        fields      = '__all__'
+
+class MarcaForm(forms.ModelForm):
+    class Meta:
+        model       = Marca
+        fields      = '__all__'
+
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model       = Categoria
+        fields      = '__all__'
+
+class ContactoForm(forms.ModelForm):
+    class Meta:
+        model       = Contacto
+        fields      = '__all__'
+
+class CustomUsercreationForm(UserCreationForm):
+    class Meta:
+        model       = User
+        fields      = ['username',"first_name", "last_name", "email", "password1", "password2"]

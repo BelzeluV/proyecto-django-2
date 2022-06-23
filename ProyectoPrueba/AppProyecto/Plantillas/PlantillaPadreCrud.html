@@ -14,35 +14,61 @@
         <script src='{% static "js/Funciones.js" %}'></script>                                          <!--js-->
         <link type="text/css"   href='{% static "css/style.css" %}'rel="stylesheet"/>                   <!--css-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>        <!--jquery por si algo falta-->
-        <script src='{% static "js/categorias.js" %}'></script>                                                           <!--js de las cosas de la eimy-->
+        <script src='{% static "js/categorias.js" %}'></script>                                         <!--js de las cosas de la eimy-->
         <!--Bootstrap 5-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     </head>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">         
+        <nav class="navbar navbar-expand-lg bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'home' %}">
                     <img src='{% static "imagenes/iconoplantita.jpg" %}' alt="" width="30" height="24" class="d-inline-block align-text-top">
                 </a>
-                <a class="navbar-brand" href="#">Admin De La Tienda Plantitas</a>                                                                            
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#">Admin De La Tienda Plantitas</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div class="btn-group" style="margin-bottom: 12px;margin-top: 12px;">                                                                  <!--ahi el grupo de Botones del inicio de sesion -->
-                        <a href="#" class="btn btn-primary active" aria-current="page">Crear Cuenta</a>
-                        <a href="#" class="btn btn-primary">Iniciar Sesión</a>
-                    </div>
+
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Opciones de Administrador de Productos
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href='{% url "crud-categorias" %}'>Categorias</a></li>
+                            <li><a class="dropdown-item" href='{% url "crud-marcas" %}'>Marcas</a></li>
+                            <li><a class="dropdown-item" href='{% url "vista" %}'>Productos</a></li>
+                            </ul>
+                        </li>
+                        <li>
+
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
-            {% block content %}
 
+            {% if messages %}
+                {% for m in messages %}
+                    <script>
+                        Swal.fire({
+                            "title" : "Listo",
+                            "text"  : "{{m}}",
+                            "icon"  : "success"
+                        })
+                    </script>
+                {% endfor %}
+            {% endif %}
 
-            
+            {% block content %}            
             {% endblock %}
+
         <div class="container-fluid py-5">                                       <!--FOOTER-->
                     
             <footer class="text-center text-lg-start text-white " style="background-color: #1b1822">

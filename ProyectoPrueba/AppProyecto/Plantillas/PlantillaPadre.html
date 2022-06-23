@@ -19,9 +19,9 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     </head>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">            <!--NAVBAR-->
+        <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">            <!--NAVBAR-->
             <div class="container-fluid">
                 <a class="navbar-brand" href="{% url 'home' %}">
                     <img src='{% static "imagenes/iconoplantita.jpg" %}' alt="" width="30" height="24" class="d-inline-block align-text-top">
@@ -32,38 +32,57 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-            <li class="nav-item dropdown">                               <!--aqui está el dropdown con los productos-->
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Productos
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                
-                <li><a class="dropdown-item" href="#"></a></li>
-                <li><hr class="dropdown-divider"></li>
-                
-                </ul>
-            </li>
-            
+            {% if perms.AppProyecto.add_Producto%}
+                <li class="nav-item">
+                    <a class="nav-link" href='{% url "vista" %}'>Menú de Administrador y Pruebas</a>
+                </li>
+            {% endif %}
             <li class="nav-item">                                                                    <!--este es para las opciones desactivadas-->
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Servicios Próximamente..</a>
+                <a class="nav-link" href="{% url 'contacto' %}" tabindex="-1" aria-disabled="true">Contacto</a>
+            </li>
+            <li class="nav-item">                                                                    <!--este es para las opciones desactivadas-->
+                <a class="nav-link" href='{% url "carro" %}' tabindex="-1" aria-disabled="true">Carro</a>
             </li>
             </ul>
+
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Buscar Producto" aria-label="Search" style="margin-bottom: 12px;margin-top: 12px;">
                 <button class="btn btn-outline-success" type="submit" style="margin-right: 12px;margin-bottom: 12px;margin-top: 12px;">Buscar </button>
             </form>
+            {% if user.is_authenticated %}
+            <div class="justify-content-end">
+                <label style="color: aliceblue;"> Hola, {{user.username}}!</label>
+                <a class="btn btn-danger" href="{% url 'logout' %}" style="margin-left: 8px;">Cerrar Sesión</a>
+            <div>
+            {% else %}
+
 
             <div class="btn-group" style="margin-bottom: 12px;margin-top: 12px;">                                                                  <!--ahi el grupo de Botones del inicio de sesion -->
             <a href="{% url 'crear-cuenta' %}" class="btn btn-primary active" aria-current="page">Crear Cuenta</a>
-            <a href="{% url 'inicioSesion' %}" class="btn btn-primary">Iniciar Sesión</a>
+            <a href="{% url 'login' %}" class="btn btn-primary">Iniciar Sesión</a>
             </div>
+            {% endif %}
         </div>
             </div>
         </nav>
+
+
+            {% if messages %}
+                {% for m in messages %}
+                    {{m}}
+                {% endfor %}
+            {% endif %}
+
+
             {% block content %}
-            
             {% endblock %}
+
+
+
+
+
+
+
         <div class="container-fluid py-5">                                       <!--FOOTER-->
                     
             <footer class="text-center text-lg-start text-white " style="background-color: #1b1822">

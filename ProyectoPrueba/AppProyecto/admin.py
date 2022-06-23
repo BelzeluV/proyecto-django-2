@@ -16,6 +16,13 @@ class ProductoAdmin(admin.ModelAdmin):
     search_fields       = ['nombre_producto']
     list_per_page       = 10
 
+class MarcaAdmin(admin.ModelAdmin):
+    list_display        = ['id_marca','nombremarca']
+    list_display_links  = ['id_marca','nombremarca']
+    list_filter         = ['nombremarca']
+    search_fields       = ['nombremarca']
+    list_per_page       = 10
 
 admin.site.register(Usuario,UsuarioAdmin)
 admin.site.register(Producto,ProductoAdmin)
+admin.site.register(Marca,MarcaAdmin)

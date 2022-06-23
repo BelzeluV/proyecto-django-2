@@ -1,0 +1,36 @@
+{% extends "PlantillaPadre.html"%}
+{% load humanize %}
+{% load static %}
+{% block title %} Plantitas | Contacto {% endblock %}
+{% load crispy_forms_tags %}
+{% block content%} 
+
+<div class="container-fluid">
+    
+    
+
+
+    <div class="col-md-6 offset-3">
+        <h1 style="color:aliceblue">Contactate Con Nosotros!</h1>
+        <div class="d-grid gap-2">
+            <a class="btn btn-danger" href="{% url 'home' %}">Volver</a>
+        </div> 
+    <div class="card bg-dark text-white" >
+        <div class="card-body">
+
+            <form action="" method="POST" name="Formulario_registro">
+                
+                {% csrf_token %}
+                {{formulario | crispy}}
+ 
+        </div>
+    </div>
+        <div class="d-grid gap-2">
+        <input type="submit" name="btn_enviar" class="btnlimpiar btn btn-success" value="enviar" >
+        </div>
+    </form>
+    </div>
+</div>   
+</form>
+
+{% endblock %}

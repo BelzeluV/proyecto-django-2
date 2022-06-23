@@ -1,0 +1,77 @@
+{% extends "PlantillaPadreCRUD.html"%}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block title %} Administrador | Visualizador de Marcas {% endblock %}
+{% block content%} 
+        
+        
+        <h1 style="text-align: center;">Mantenedor De Marcas</h1>
+
+        {% if mensaje %}
+            <div class="bd-callout bd-callout-warning">Se ha registrado correctamente</div>
+        {% endif %}
+        
+        <div class="container-fluid py-4">
+            <div class="row d-flex justify-content-center">
+
+
+                <div class="col-sm-5 col-md-3 py-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1>Ingresar Marca</h1>
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {{formulario | crispy}}
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <input type="submit" class="btn btn-success" value="guardar">
+                    </div>
+                    </form>
+                </div>
+
+                <div class="col-md-5 py-2 ">
+                    <div class="card">
+                        <div class="card-body">
+                        <h1>Marcas Ingresadas</h1>
+                        <div class="py-5">
+                            <table class="table table-striped ">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="text-align:center">id</th>
+                                        <th scope="col" style="text-align:center">Nombre</th>
+                                        <th scope="col" style="text-align:center">Activo</th>
+                                        <th scope="col" style="text-align:center">Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for l in entity %}
+                                    <tr>
+                                        <th scope="row">{{l.id_marca}}</th>
+                                        <td>{{l.nombremarca}}</td>
+                                        <th scope="col" style="text-align:center">
+                                            {%if l.activo%}
+                                                Si
+                                            {% else %}
+                                                No
+                                            {% endif %}
+                                        </th>
+                                        <td>
+                                            <a href="{% url 'modificar-m' l.id_marca %}" class="btn btn-warning">Modificar</a>
+                                            <a href="{% url 'eliminar-m' l.id_marca %}" class="btn btn-danger">eliminar</a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            {% include 'paginator.html'%}
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %} 
