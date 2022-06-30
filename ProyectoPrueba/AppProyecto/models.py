@@ -5,17 +5,14 @@ from subprocess import ABOVE_NORMAL_PRIORITY_CLASS
 from threading import activeCount
 from tkinter import CASCADE
 from unittest.util import _MAX_LENGTH
-
+from django.contrib.auth import get_user_model
+from django.db.models import F,Sum
 from django.db import models
+from django.forms import IntegerField
 
 # Create your models here.
-opcionesSexo = [
-    [0,"Hombre"],
-    [1,"Mujer"],
-    [2,"No especificado"]
-]
-
-opcionesmetodopago= [
+User = get_user_model()
+opcionesmetodopago = [
     [0, "efectivo"],
     [1, "tarjeta de Credito"],
     [2, "tarjeta de Debito"],
@@ -25,7 +22,7 @@ opcionesmetodopago= [
     
 ]
 
-opcionescomuna =[
+opcionescomuna = [
     [0,"Peñaflor"],
     [1,"Cerrillos"],
     [2,"Cerro Navia"],
@@ -80,67 +77,87 @@ opcionescomuna =[
 ]
 
 
-class Usuario(models.Model):
-    nombreusuario       = models.CharField(max_length=100)
-    nombrereal          = models.CharField(max_length=10)
-    RUT                 = models.CharField(primary_key=True,max_length=13)
-    correo              = models.CharField(max_length=50)
-    contrasena          = models.CharField(max_length=30)
-    nacimiento          = models.DateField()
-    genero              = models.IntegerField(choices=opcionesSexo)
-    telefono            = models.CharField(max_length=100)
-    Direccion           = models.CharField(max_length=100)
-    comuna              = models.IntegerField(choices=opcionescomuna)        
-    
-    def __str__(self):
-        formato = "Username: {0} Nombre: ({1}) RUT: {2}"
-        return formato.format(self.nombreusuario,self.nombrereal,self.RUT)
- 
 class Categoria(models.Model):
-    id_categoria        = models.AutoField(primary_key=True)
-    nombrecategoria     = models.CharField(max_length=20)
+    id_categoria        = models.AutoField(primary_key  = True)
+    nombrecategoria     = models.CharField(max_length   = 20)
     activo              = models.BooleanField()
     def __str__(self):
         return self.nombrecategoria
 
 class Marca(models.Model):
-    id_marca            = models.AutoField(primary_key=True)
-    nombremarca         = models.CharField(max_length=20)
+    id_marca            = models.AutoField(primary_key  = True)
+    nombremarca         = models.CharField(max_length   = 20)
     activo              = models.BooleanField()
     def __str__(self):
         return self.nombremarca
 
 class Producto(models.Model):                                           #clase del Producto
-    id_producto         = models.AutoField(primary_key=True)    #pk
-    nombre_producto     = models.CharField(max_length=100)
+    id_producto         = models.AutoField(primary_key  = True)    #pk
+    nombre_producto     = models.CharField(max_length   = 100)
     precio              = models.IntegerField()
-    desc                = models.TextField(max_length=1000)
+    desc                = models.TextField(max_length   = 1000)
     stock               = models.IntegerField()
-    marca               = models.ForeignKey(Marca, null=True, blank=True, on_delete = models.CASCADE)
-    activo              = models.BooleanField()
+    marca               = models.ForeignKey(Marca, null = True, blank = True, on_delete = models.CASCADE)
     categoria           = models.ForeignKey(Categoria, null=True, blank=True, on_delete = models.CASCADE)                             #FK de la clase categoria
     FotoProducto        = models.ImageField(upload_to="productos", null=True)
+    activo              = models.BooleanField()
+
     
     def __str__(self):
         return self.nombre_producto
 
-class Detalle(models.Model):                                            #clase del Detalle
-    id_detalle          = models.AutoField(primary_key=True)    #pk
-    id_producto         = models.ForeignKey(Producto, null=True, blank=True, on_delete = models.CASCADE)    #FK de la clase producto
-    preciodetalle       = models.IntegerField()
-    fechadetalle        = models.DateField()
-    cantidad            = models.IntegerField()
+
+
+
+class Pedido(models.Model):
+    id                  = models.AutoField(primary_key  = True)
+    user                = models.ForeignKey(User,null = True, blank = True, on_delete = models.CASCADE)
+    created_at          = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        formato = "detalle No: {} producto No{} cantidad:{}"
-        return formato(self.id_detalle)
+        formato = "Pedido Nunero: {1} Usuario: ({2})"
+        return formato.format(self.id, self.user)
+    @property
+    def total(self):
+        return self.LineaPedido_set.aggregate(
+            total = Sum(F("precio")*F("cantidad"),output_field = IntegerField()) 
+        )["total"]
+    class Meta:
+        db_table = 'pedidos'
+        verbose_name = 'pedido'
+        verbose_name_plural = 'pedidos'
+        ordering = ['id']
 
-class boleta(models.Model):
-    id_boleta           = models.AutoField(primary_key=True)
-    id_producto         = models.ForeignKey(Producto, null=True, blank=True, on_delete = models.CASCADE)
-    rut                 = models.ForeignKey(Usuario, null=True, blank=True, on_delete = models.CASCADE)
-    id_detalle          = models.ForeignKey(Detalle, null=True, blank=True, on_delete = models.CASCADE)
+class LineaPedido(models.Model):
+    id_linea            = models.AutoField(primary_key=True)
+    user                = models.ForeignKey(User, null = True, blank = True, on_delete = models.CASCADE)
+    id_producto         = models.ForeignKey(Producto, on_delete = models.CASCADE)
+    pedido_id           = models.ForeignKey(Pedido, on_delete = models.CASCADE)
+    cantidad            = models.IntegerField(default = 1)
+    created_at          = models.DateTimeField(auto_now_add = True)
 
+    def __str__(self):
+        return self
+
+    class Meta:
+        db_table = 'LineaPedido'
+        verbose_name = 'Lpedido'
+        verbose_name_plural = 'Lpedidos'
+        ordering = ['id_linea']
+
+class Usuario(models.Model):
+    user                = models.ForeignKey(User,null = True, on_delete = models.SET_NULL)   
+    nombrereal          = models.CharField(max_length   = 40)
+    RUT                 = models.CharField(primary_key  = True,max_length=13)
+    telefono            = models.CharField(max_length   = 100)
+    Direccion           = models.CharField(max_length   = 100)
+    comuna              = models.IntegerField(choices   = opcionescomuna)
+    mediopago           = models.IntegerField(choices   = opcionesmetodopago)       
+    
+    def __str__(self):
+        formato = "Nombre: ({1}) RUT: {2}"
+        return formato.format(self.nombrereal,self.RUT)
+ 
 opconsultas = [
     [0, "Consulta"],
     [1, "Reclamo"],
@@ -149,6 +166,7 @@ opconsultas = [
 ]
 
 class Contacto(models.Model):
+    user                = models.ForeignKey(User,null = True, blank = True, on_delete = models.CASCADE)
     nombre              = models.CharField(max_length=50)
     correo              = models.EmailField()
     tipo_consulta       = models.IntegerField(choices=opconsultas)

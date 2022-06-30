@@ -6,9 +6,3 @@ def importe_total_carro(request):
         for key,value in request.session["carro"].items():
             total += int(value["precio"] * value["cantidad"])
     return {"importe_total_carro":total}
-    
-def listaCategorias(request):
-    listadoCategorias = models.Categoria.objects.all()
-    return {"categorias": listadoCategorias}
-
-

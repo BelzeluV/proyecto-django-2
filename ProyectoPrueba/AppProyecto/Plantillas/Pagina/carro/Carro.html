@@ -60,7 +60,7 @@
             </div>
             <div class="d-grid gap-2">
                 {% if request.session.carro.items %}
-                <a href="{% url 'home'%}" class="btn btn-success">Pagar</a>
+                <a href="{% url 'pago'%}" class="btn btn-success">Pagar</a>
                 {% else %}
                 <button type="button" class="btn btn-secondary btn-lg" disabled>Pagar</button>
                 {% endif %}

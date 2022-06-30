@@ -44,6 +44,7 @@ urlpatterns = [
     path('EliminarProducto/<id>/',  views.eliminar_producto,    name = "eliminarProducto"),
     path('RestarProducto/<id>/',    views.restar_producto,      name = "restarProducto"),
     path('LimpiarCarro/',           views.vaciar_carro,         name = "limpiarCarro"),
+    path('Pagar/',                  views.procesar_pedido,      name = "pago"),
 
 
     #crud de Productos

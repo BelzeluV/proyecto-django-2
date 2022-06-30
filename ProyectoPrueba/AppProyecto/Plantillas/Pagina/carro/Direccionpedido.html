@@ -1,0 +1,35 @@
+{% extends "PlantillaPadre.html"%}
+{% load humanize %}
+{% load static %}
+{% block title %} Plantitas | Carrito {% endblock %}
+{% load crispy_forms_tags %}
+{% block content%} 
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-5 col-sm-10 py-4 ">
+            <div class="d-grid gap-2">
+                <a class="btn btn-danger" href="{% url 'carro'%}">Volver, aun faltan cosas</a>
+            </div>
+            <div class="card justify-content-center">
+                <div class="card-text">
+                    <h1 style="text-align: center;">el Pedido está Casi Listo</h1>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{formulario | crispy}}
+
+                </div>
+            </div>
+            <div class="d-grid gap-2">
+                <input type="submit" class="btn btn-success">
+            </div>
+        </form>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+    

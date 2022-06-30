@@ -1,14 +1,14 @@
-from django.contrib.auth import authenticate,login
-from django.contrib import messages
-from django.core.paginator import Paginator
-from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required,permission_required
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth import authenticate,login
+from django.core.paginator import Paginator
+from django.contrib import messages
 from rest_framework import viewsets
+from django.http import Http404
 from . import serializers
+from . import Carrito
 from . import models
 from . import forms
-from . import Carrito
 
 class ProductoViewset(viewsets.ModelViewSet):
     queryset = models.Producto.objects.all()
@@ -95,9 +95,41 @@ def vaciar_carro(request):
     messages.success(request,"El carro fue Vaciado")
     return redirect("")
 
+#pagar carrito (requiere login)
+@login_required
+def procesar_pedido(request):
+
+    data = {"formulario" : forms.UsuarioForm}
+
+    if request.method == 'POST':
+        formulario = forms.UsuarioForm(data=request.POST, files = request.FILES)
+        if formulario.is_valid():
+            obj = formulario.save(commit = False) 
+            obj.user = request.user; 
+            obj.save()
 
 
+            Pedido = models.Pedido.objects.create(user = request.user)
+            carrito = Carrito.Carro(request)
+            lineas_pedido = list()
 
+
+            for key,value in carrito.carro.items():
+                lineas_pedido.append(models.LineaPedido(
+                    user = request.user,
+                    id_producto = models.Producto.objects.get(id_producto = key),
+                    cantidad = value["cantidad"],
+                    pedido_id = Pedido.id
+            ))
+            carrito.limpiar_carro()
+            messages.success(request,"Su Pedido Fue Realizado con exito, Pronto te contactaremos cuando se compruebe el pago")
+            return redirect(to = "")
+
+
+        else:
+            data["formulario"] = formulario
+
+    return render(request, "Pagina/carro/Direccionpedido.html",data)
 
 
 #Productos CRUD
