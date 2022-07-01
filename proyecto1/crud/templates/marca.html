@@ -1,0 +1,23 @@
+{# comentario si es requerido #}
+{% extends "plantillaBase.html" %}
+
+{# definir contenidos de los bloques declarados en la plantilla base #}
+
+{% block tituloPestana %}
+    C.R.U.D. Marca
+{% endblock %}
+{% block titulo %}
+    <h1>CRUD para Marca</h1>
+{% endblock %}
+{% block contenido %}
+<input type="text" name="txtNombre" id="">
+
+{% endblock %}
+{% block listado %}
+ <table border="1">
+     <tr>
+         <td>Nombre</td>
+         <td>Activo</td>
+     </tr>
+ </table>
+{% endblock %}

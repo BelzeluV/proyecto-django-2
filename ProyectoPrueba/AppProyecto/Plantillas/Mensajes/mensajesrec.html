@@ -1,0 +1,60 @@
+{% extends "PlantillaPadreCRUD.html"%}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+{% block title %} Administrador | Mensajes recibidos {% endblock %}
+{% block content%} 
+
+
+<div class="container-fluid">
+<div class="row justify-content-center">
+<div class="col-8 py-5">
+<div class="card">
+<div class="card-body">
+    <h1 style="text-align: center;">Mensajes recibidos</h1>
+<div class="py-5">
+<table class="table table-striped ">
+<thead>
+<tr>
+<th scope="col" style="text-align:center;">Nombre del Usuario</th>
+<th scope="col" style="text-align:center;">Correo</th>
+<th scope="col" style="text-align:center;">Tipo de Mensaje</th>
+<th scope="col" style="text-align:center;">mensaje</th>
+<th scope="col" style="text-align:center;">Quiere Avisos?</th>
+</tr>
+</thead>
+<tbody>
+{% for l in entity %}
+<tr>
+<th scope="row">{{l.Nombre}}</th>
+<td>{{l.correo}}</td>
+<td>
+{%if l.tipo_consulta == 0%}
+Consulta
+
+{%elif l.tipo_consulta == 1 %}
+Reclamo
+{%elif l.tipo_consulta == 2%}
+Sugerencia
+{%elif l.tipo_consulta == 3%}
+Felicitaciones
+{%else%}
+{% endif %}
+</td>
+<td>{{l.mensaje}}</td>
+<td>{{l.avisos}}</td>
+
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<div>
+{% include 'paginator.html'%} 
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
