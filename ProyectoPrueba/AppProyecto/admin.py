@@ -31,8 +31,23 @@ class LineaPedidoAdmin(admin.ModelAdmin):
     search_fields       = ['id_linea']
     list_per_page       = 10
 
-admin.site.register(Usuario)
+class UsuarioAdmin(admin.ModelAdmin):
+    list_display        = ['user', 'nombrereal', 'RUT', 'telefono', 'Direccion', 'comuna', 'mediopago']
+    list_display_links  = ['user', 'nombrereal', 'RUT', 'telefono', 'Direccion', 'comuna', 'mediopago']
+    list_filter         = ['user']
+    search_fields       = ['user']
+    list_per_page       = 10
+
+class ContactoAdmin(admin.ModelAdmin):
+    list_display        = ['nombre', 'correo', 'tipo_consulta','mensaje', 'avisos']
+    list_display_links  = ['nombre', 'correo', 'tipo_consulta','mensaje', 'avisos']
+    list_filter         = ['nombre']
+    search_fields       = ['nombre']
+    list_per_page       = 10
+
+admin.site.register(Usuario,UsuarioAdmin)
 admin.site.register(Producto,ProductoAdmin)
 admin.site.register(Marca,MarcaAdmin)
 admin.site.register(Pedido,PedidoAdmin)
+admin.site.register(Contacto,ContactoAdmin)
 admin.site.register(LineaPedido,LineaPedidoAdmin)

@@ -24,9 +24,11 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('producto', views.ProductoViewset)
-
-
-
+router.register('marca', views.MarcaViewset)
+router.register('categoria', views.CategoriaViewset)
+router.register('pedidos', views.PedidoViewset)
+router.register('Lpedidos', views.LineaPedidoViewset)
+router.register('contacto', views.ContactoViewset)
 
 
 urlpatterns = [
@@ -68,10 +70,10 @@ urlpatterns = [
     #administracion y login
     path('api/',                    include(router.urls)),
     path('accounts/',               include('django.contrib.auth.urls')),
-    path('admin/',                  admin.site.urls,            name = "ADMIN"), 
-    
-    
-]
+    path('admin/',                  admin.site.urls,            name = "ADMIN"),     
+    path('Contactoview/',           views.Contactovista,        name = "contactoview"),
+
+]   
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

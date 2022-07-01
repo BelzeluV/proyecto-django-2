@@ -14,6 +14,31 @@ class ProductoViewset(viewsets.ModelViewSet):
     queryset = models.Producto.objects.all()
     serializer_class = serializers.ProductoSerializer
 
+class MarcaViewset(viewsets.ModelViewSet):
+    queryset = models.Marca.objects.all()
+    serializer_class = serializers.MarcaSerializer
+
+class CategoriaViewset(viewsets.ModelViewSet):
+    queryset = models.Categoria.objects.all()
+    serializer_class = serializers.CategoriaSerializer
+
+class PedidoViewset(viewsets.ModelViewSet):
+    queryset = models.Pedido.objects.all()
+    serializer_class = serializers.PedidoSerializer
+
+class LineaPedidoViewset(viewsets.ModelViewSet):
+    queryset = models.LineaPedido.objects.all()
+    serializer_class = serializers.LineaPedidoSerializer
+
+class UsuarioViewset(viewsets.ModelViewSet):
+    queryset = models.Usuario.objects.all()
+    serializer_class = serializers.UsuarioSerializer
+
+class ContactoViewset(viewsets.ModelViewSet):
+    queryset = models.Contacto.objects.all()
+    serializer_class = serializers.UsuarioSerializer
+
+
 #Vista de Usuario Normal
 
 
@@ -33,7 +58,6 @@ def DetalleProd(request,id):
     listadoCategorias = models.Categoria.objects.all
     Producto = get_object_or_404(models.Producto, id_producto = id)
     data = {"producto" : Producto,"lista":listadoCategorias}
-    messages.success(request,"Agregado a la cesta")
     return render(request, 'Pagina/PaginaProducto.html', data)
 
 def Contacto(request):
@@ -43,7 +67,7 @@ def Contacto(request):
         if formulario.is_valid():
             formulario.save()
             messages.success(request,"Su Mensaje Fue enviado con exito")
-            return redirect(to="vista")
+            return redirect(to="home")
         else:
             data["formulario"] = formulario
     return render(request,"Pagina/PaginaContacto.html", data)
@@ -73,14 +97,12 @@ def agregar_producto(request,id):
     carro = Carrito.Carro(request)
     producto = models.Producto.objects.get(id_producto = id)
     carro.agregar(Producto = producto)
-    messages.success(request,"Producto agregado con exito")
     return redirect(to="carro")
 
 def eliminar_producto(request,id):
     carro = Carrito.Carro(request)
     producto = models.Producto.objects.get(id_producto = id)
     carro.eliminar(Producto = producto)
-    messages.success(request,"Producto eliminado con exito")
     return redirect(to="carro")
 
 def restar_producto(request,id):
@@ -92,7 +114,6 @@ def restar_producto(request,id):
 def vaciar_carro(request):
     carro = Carrito.Carro(request)
     carro.limpiar_carro()
-    messages.success(request,"El carro fue Vaciado")
     return redirect("")
 
 #pagar carrito (requiere login)
@@ -115,21 +136,32 @@ def procesar_pedido(request):
 
 
             for key,value in carrito.carro.items():
-                lineas_pedido.append(models.LineaPedido(
+                lineas_pedido.append(models.LineaPedido.objects.create(
                     user = request.user,
                     id_producto = models.Producto.objects.get(id_producto = key),
                     cantidad = value["cantidad"],
-                    pedido_id = Pedido.id
-            ))
+                    pedido_id = models.Pedido.objects.get(id= Pedido.id)))            
             carrito.limpiar_carro()
             messages.success(request,"Su Pedido Fue Realizado con exito, Pronto te contactaremos cuando se compruebe el pago")
-            return redirect(to = "")
+            return redirect(to = "home")
 
 
         else:
             data["formulario"] = formulario
 
     return render(request, "Pagina/carro/Direccionpedido.html",data)
+
+#leer contacto de usuarios
+
+def Contactovista(request):
+    listacontactos = models.Contacto.objects.all()
+    page = request.GET.get('page',1)
+    data = { "entity" : listacontactos}
+
+    return render(request,"Mensajes/mensajesrec.html",data)
+
+
+
 
 
 #Productos CRUD

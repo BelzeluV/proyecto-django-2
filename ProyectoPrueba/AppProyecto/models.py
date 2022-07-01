@@ -1,14 +1,8 @@
-from calendar import different_locale
-from distutils.command.upload import upload
-from http.client import PRECONDITION_FAILED
-from subprocess import ABOVE_NORMAL_PRIORITY_CLASS
-from threading import activeCount
-from tkinter import CASCADE
-from unittest.util import _MAX_LENGTH
 from django.contrib.auth import get_user_model
+from django.forms import IntegerField
 from django.db.models import F,Sum
 from django.db import models
-from django.forms import IntegerField
+from tkinter import CASCADE
 
 # Create your models here.
 User = get_user_model()
@@ -18,10 +12,7 @@ opcionesmetodopago = [
     [2, "tarjeta de Debito"],
     [3, "transferencia"],
     [4, "prepago"],
-    [5, ""],
-    
-]
-
+    [5, ""]]
 opcionescomuna = [
     [0,"Peñaflor"],
     [1,"Cerrillos"],
@@ -73,9 +64,12 @@ opcionescomuna = [
     [47,"Talagante"],
     [48,"El Monte"],
     [49,"Isla de Maipo"],
-    [50,"Padre Hurtado"],
-]
-
+    [50,"Padre Hurtado"],]
+opconsultas = [
+    [0, "Consulta"],
+    [1, "Reclamo"],
+    [2, "Sugerencia"],
+    [3, "Felicitaciones"],]
 
 class Categoria(models.Model):
     id_categoria        = models.AutoField(primary_key  = True)
@@ -91,7 +85,7 @@ class Marca(models.Model):
     def __str__(self):
         return self.nombremarca
 
-class Producto(models.Model):                                           #clase del Producto
+class Producto(models.Model):
     id_producto         = models.AutoField(primary_key  = True)    #pk
     nombre_producto     = models.CharField(max_length   = 100)
     precio              = models.IntegerField()
@@ -106,16 +100,13 @@ class Producto(models.Model):                                           #clase d
     def __str__(self):
         return self.nombre_producto
 
-
-
-
 class Pedido(models.Model):
     id                  = models.AutoField(primary_key  = True)
     user                = models.ForeignKey(User,null = True, blank = True, on_delete = models.CASCADE)
     created_at          = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
-        formato = "Pedido Nunero: {1} Usuario: ({2})"
+        formato = "Pedido Nunero: {0} Usuario: ({1})"
         return formato.format(self.id, self.user)
     @property
     def total(self):
@@ -157,16 +148,8 @@ class Usuario(models.Model):
     def __str__(self):
         formato = "Nombre: ({1}) RUT: {2}"
         return formato.format(self.nombrereal,self.RUT)
- 
-opconsultas = [
-    [0, "Consulta"],
-    [1, "Reclamo"],
-    [2, "Sugerencia"],
-    [3, "Felicitaciones"],
-]
 
 class Contacto(models.Model):
-    user                = models.ForeignKey(User,null = True, blank = True, on_delete = models.CASCADE)
     nombre              = models.CharField(max_length=50)
     correo              = models.EmailField()
     tipo_consulta       = models.IntegerField(choices=opconsultas)
